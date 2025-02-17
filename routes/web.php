@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\WelcomeController;
+use App\Http\Controllers\PhotoController;
 
 /*
 |--------------------------------------------------------------------------
@@ -44,5 +46,12 @@ Route::get('/user/{name?}', function ($name=null) {
 Route::get('/user/{name?}', function ($name='Deva') {
    return 'Deva Selviana '.$name;
    });
-        
-   
+Route::get('/hello', [WelcomeController::class,'hello']);
+Route::resource('photos', PhotoController::class);       
+Route::resource('photos', PhotoController::class)->only([
+   'index', 'show'
+]);
+
+Route::resource('photos', PhotoController::class)->except([
+   'create', 'store', 'update', 'destroy'
+]);
