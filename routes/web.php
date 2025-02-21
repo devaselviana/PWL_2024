@@ -2,7 +2,9 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\WelcomeController;
+use App\Http\Controllers\PageController;
 use App\Http\Controllers\PhotoController;
+use resource\Views\Blog\HelloBlade;
 
 /*
 |--------------------------------------------------------------------------
@@ -32,8 +34,9 @@ Route::get('/hello', function () {
 });
 
 Route::get('/user/{name}', function ($name) {
-   return 'Nama Deva Selviana '.$name;
+   return 'Nama '. $name;
    });
+
 Route::get('/posts/{post}/comments/{comment}', function ($postId, $commentId) {
       return 'Pos ke-'.$postId." Komentar ke-: ".$commentId;
   });
@@ -41,13 +44,16 @@ Route::get('/articles/{articles}/comments/{comment}', function ($postId, $commen
    return 'Halaman Artikel'.$postId." ID 5-: ".$commentId;
 });
 Route::get('/user/{name?}', function ($name=null) {
-   return 'Deva Selviana '.$name;
+   return 'Nama Saya '.$name;
    });
-Route::get('/user/{name?}', function ($name='Deva') {
-   return 'Deva Selviana '.$name;
+Route::get('/user/{name?}', function ($name='Deva Selviana') {
+   return 'Nama Saya '.$name;
    });
 Route::get('/hello', [WelcomeController::class,'hello']);
-Route::resource('photos', PhotoController::class);       
+Route::get('/', [PageController::class, 'index']);
+Route::get('/about', [PageController::class, 'about']);
+Route::get('/articles/{id}', [PageController::class, 'articles']);
+
 Route::resource('photos', PhotoController::class)->only([
    'index', 'show'
 ]);
@@ -55,3 +61,9 @@ Route::resource('photos', PhotoController::class)->only([
 Route::resource('photos', PhotoController::class)->except([
    'create', 'store', 'update', 'destroy'
 ]);
+
+Route::get('/greeting', function () {
+	return view('blog.hello', ['name' => 'Deva']);
+});
+
+Route::get('/greeting', [WelcomeController::class, 'greeting']);
